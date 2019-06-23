@@ -1,0 +1,22 @@
+{
+  "name": "api_wtcs",
+  "version": "1.0.0",
+  "description": "API da aplicação SocialPower",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wtcs-powersocial/API.git"
+  },
+  "keywords": [
+    "SocialPower"
+  ],
+  "author": "Romário Coelho Oliveira <rcoliveira.ti@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wtcs-powersocial/API/issues"
+  },
+  "homepage": "https://github.com/wtcs-powersocial/API#readme"
+}
