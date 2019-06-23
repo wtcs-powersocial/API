@@ -19,3 +19,14 @@ aplication.use(multiparty());
 const PORT = 8080;
 
 aplication.listen(PORT, () => console.log('API no ar...'));
+
+// config connection
+const uri = 'localhost';
+const porta_bd = 27017;
+const connection = new mongodb(
+    'wtcs', // nome do bd
+    new mongodb.Server( // servidor
+        uri, porta_bd, {} // obj opcionais
+    ), {} // obj opcionais
+
+);
