@@ -1,9 +1,9 @@
 module.exports = function(aplication) {
-
+    const multiparty = require('connect-multiparty');
+    const vdc = multiparty();
     const user = require('../controllers/user.controller.js');
-
     // Create a new Customer
-    aplication.post('/api/users', user.create);
+    aplication.post('/api/users', vdc, user.create);
 
     // Retrieve all Customer
     aplication.get('/api/users', user.findAll);

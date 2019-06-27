@@ -24,7 +24,12 @@ const UserSchema = mongoose.Schema({
     dataNasc: {
         type: String,
         require: true
+    },
+    icon: {
+        data: Buffer,
+        type: String,
+        require: true
     }
-});
+}, { collection: 'users' });
 
 module.exports = mongoose.model('User', UserSchema);
