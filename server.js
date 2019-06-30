@@ -7,6 +7,8 @@ const cors = require('cors'); // permissões p/ consumo da api
 const consign = require('consign');
 const fileUpload = require('express-fileupload');
 const multer = require('multer');
+const path = require('path');
+const morgan = require('morgan');
 // manipulação de arquivos
 const mv = require('mv'); // necessário para linux
 const fs = require('fs');
@@ -19,6 +21,7 @@ aplication.use(fileUpload());
 
 aplication.use(express.json({ extend: false }));
 aplication.use(express.urlencoded({ extended: false }));
+aplication.use(morgan('dev'));
 
 
 // Configurando banco de dados
@@ -42,21 +45,6 @@ const corsOptions = {
 
 aplication.use(cors(corsOptions));
 
-consign()
-    .include('./src/routes')
-    .into(aplication);
-
-/*
-const multer = require('multer');
-
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, './src/uploads/')
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + '-' + file.ogirinalname)
-    }
-});
-*/
+aplication.use(require('./src/routes/routesAll.routes'));
 
 aplication.listen(3000, () => console.log('APP on...'));
