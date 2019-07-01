@@ -30,13 +30,12 @@ const UserSchema = mongoose.Schema({
     }
 }, { collection: 'users' });
 
-/*
-UserSchema.pre('save', async(next) => {
+
+UserSchema.pre('save', async function(next) {
     const hash = await bcrypto.hash(this.password, 10);
     this.password = hash;
 
     next();
 });
-*/
 
 module.exports = mongoose.model('User', UserSchema);
