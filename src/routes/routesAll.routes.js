@@ -81,8 +81,10 @@ routes.get('/denouces/:denouceId', (req, res) => {
  */
 
 routes.post('/users', multipartyMiddleware, async(req, res) => {
-    console.log(req);
-    // res.json({ chave: 'oi' });
+    const { email } = req.body;
+
+    if (await User.findOne({ email }))
+        return res.status(400).send({ msg: 'Este email já foi cadastrado por um usuário.' });
 
     const user = new User();
     user.nameComplete = req.body.nameComplete;
@@ -99,14 +101,13 @@ routes.post('/users', multipartyMiddleware, async(req, res) => {
 
     user.save()
         .then(data => {
+            data.password = undefined;
             res.status(200).json(data);
-            console.log(user);
         }).catch(err => {
             res.status(500).json({
                 msg: err.message
             });
         });
-
 });
 
 
