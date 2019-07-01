@@ -1,41 +1,33 @@
 const routes = require('express').Router();
-const multer = require('multer');
-const multerConfig = require('../config/multer');
+const multiparty = require('connect-multiparty');
 // models
-const Post = require('../models/post');
+const Image = require('../models/image.model');
 const Denouce = require('../models/denouce.models');
 const Category = require('../models/category.model');
 const User = require('../models/user.model');
 
-// rotas do model post
-routes.post('/posts', multer(multerConfig).single('file'), async(req, res) => {
-    console.log(req.file);
-    console.log(req.files);
-    console.log(req.body);
-    const post = await Post.create({
-        name: req.file.originalname,
-        size: req.file.size,
-        key: req.file.filename,
-        url: ''
-    });
 
-    return res.json(post);
-});
+const multipartyMiddleware = multiparty({ uploadDir: '../upload' });
 
 /**
  * Rotas do model Denouce
  */
-routes.post('/denouces', (req, res) => {
+routes.post('/denouces', multipartyMiddleware, async(req, res) => {
 
     const denouce = new Denouce({
         categoria: req.body.categoria,
         descricao: req.body.descricao,
-        latitude: req.body.latitude,
-        longitude: req.body.longitude,
-        //img_denuncia: req.files.path,
+        latitude: parseFloat(req.body.latitude),
+        longitude: parseFloat(req.body.longitude),
         dataDenuncia: req.body.data,
         status: req.body.status,
-        autor: req.body.autor
+        autor: req.body.autor,
+        img_denuncia: await Image.create({
+            name: req.files.img_denuncia.originalFilename,
+            size: req.files.img_denuncia.size,
+            key: req.files.img_denuncia.name,
+            url: ''
+        })
     });
 
     denouce.save()
@@ -88,18 +80,22 @@ routes.get('/denouces/:denouceId', (req, res) => {
  * Rotas de Users
  */
 
-routes.post('/users', (req, res) => {
+routes.post('/users', multipartyMiddleware, async(req, res) => {
+    console.log(req);
+    // res.json({ chave: 'oi' });
+
     const user = new User();
     user.nameComplete = req.body.nameComplete;
     user.email = req.body.email;
     user.cpf = req.body.cpf;
     user.password = req.body.password;
     user.dataNasc = req.body.dataNasc;
-    // user.icon = req.body.icon;
-
-    //user.icon.type = fs.readFileSync(req.files.icon.path)
-    //user.icon.contentType = 'image/*';
-    //console.log(req.files);
+    user.icon = await Image.create({
+        name: req.files.icon.originalFilename,
+        size: req.files.icon.size,
+        key: req.files.icon.name,
+        url: ''
+    });
 
     user.save()
         .then(data => {
@@ -110,6 +106,7 @@ routes.post('/users', (req, res) => {
                 msg: err.message
             });
         });
+
 });
 
 

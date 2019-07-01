@@ -9,10 +9,6 @@ const UserSchema = mongoose.Schema({
         type: String,
         require: true
     },
-    nameUser: {
-        type: String,
-        require: true
-    },
     password: {
         type: String,
         require: true
@@ -22,12 +18,11 @@ const UserSchema = mongoose.Schema({
         require: true
     },
     dataNasc: {
-        type: String,
+        type: Date,
         require: true
     },
     icon: {
-        data: Buffer,
-        type: String,
+        type: Object,
         require: true
     }
 }, { collection: 'users' });

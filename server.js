@@ -13,14 +13,11 @@ const morgan = require('morgan');
 const mv = require('mv'); // necessário para linux
 const fs = require('fs');
 
-
-const vdc = multiparty();
-aplication.use(multiparty())
-aplication.use(fileUpload());
+// aplication.use(fileUpload());
 
 
-aplication.use(express.json({ extend: false }));
-aplication.use(express.urlencoded({ extended: false }));
+aplication.use(bodyParser.json({ extend: false }));
+aplication.use(bodyParser.urlencoded({ extended: true }));
 aplication.use(morgan('dev'));
 
 
@@ -44,6 +41,8 @@ const corsOptions = {
 }
 
 aplication.use(cors(corsOptions));
+aplication.use(multiparty());
+
 
 aplication.use(require('./src/routes/routesAll.routes'));
 
