@@ -44,6 +44,8 @@ aplication.use(cors(corsOptions));
 aplication.use(multiparty());
 
 
-aplication.use(require('./src/routes/routesAll.routes'));
+aplication.use(require('./src/routes/user.routes'));
+aplication.use(require('./src/routes/category.routes'));
+aplication.use(require('./src/routes/denouce.routes'));
 
 aplication.listen(3000, () => console.log('APP on...'));
