@@ -2,13 +2,13 @@ const routes = require('express').Router();
 const User = require('../models/user.model');
 const Image = require('../models/image.model');
 const multipartyMiddleware = require('../config/multiparty');
+const bcrypt = require('bcryptjs');
 
 
 /**
- * Rotas de Users
+ * Registrando novos usuários
  */
-
-routes.post('/users', multipartyMiddleware, async(req, res) => {
+routes.post('/register', multipartyMiddleware, async(req, res) => {
     const { email } = req.body;
 
     if (await User.findOne({ email }))
@@ -39,7 +39,29 @@ routes.post('/users', multipartyMiddleware, async(req, res) => {
 });
 
 
+/**
+ * Autenticando usuário
+ */
+routes.post('/login', async(req, res) => {
+    const { email, password } = req.body;
 
+    const user = await User.findOne({ email }).select('+password');
+
+    if (!user)
+        return res.status(400).send({ error: 'Usuário não cadastrado. Crie uma conta' });
+
+    if (!await bcrypt.compare(password, user.password)) {
+        return res.status(400).send({ error: 'Senha inválida.' });
+    }
+    user.password = undefined;
+    return res.status(200).send(user);
+
+
+})
+
+/**
+ * Capturando usuários registrados
+ */
 routes.get('/users', (req, res) => {
     User.find()
         .then(users => {
@@ -51,6 +73,10 @@ routes.get('/users', (req, res) => {
         });
 });
 
+
+/**
+ * Capturando usuário específico
+ */
 routes.get('/users/userId', (req, res) => {
     User.findById(req.params.userId)
         .then(user => {

@@ -4,16 +4,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const multiparty = require('connect-multiparty');
 const cors = require('cors'); // permissões p/ consumo da api
-const consign = require('consign');
-const fileUpload = require('express-fileupload');
-const multer = require('multer');
-const path = require('path');
 const morgan = require('morgan');
-// manipulação de arquivos
-const mv = require('mv'); // necessário para linux
-const fs = require('fs');
-
-// aplication.use(fileUpload());
 
 
 aplication.use(bodyParser.json({ extend: false }));
@@ -43,7 +34,7 @@ const corsOptions = {
 aplication.use(cors(corsOptions));
 aplication.use(multiparty());
 
-
+// rotas
 aplication.use(require('./src/routes/user.routes'));
 aplication.use(require('./src/routes/category.routes'));
 aplication.use(require('./src/routes/denouce.routes'));
