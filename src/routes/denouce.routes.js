@@ -4,6 +4,11 @@ const multipartyMiddleware = require('../config/multiparty');
 const Denouce = require('../models/denouce.models');
 const Image = require('../models/image.model');
 
+// middlewar
+const sentinelaApi = require('../middlewares/sentinela');
+
+routes.use(sentinelaApi);
+
 routes.post('/denouces', multipartyMiddleware, async(req, res) => {
 
     const denouce = new Denouce({

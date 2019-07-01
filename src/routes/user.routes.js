@@ -3,7 +3,11 @@ const User = require('../models/user.model');
 const Image = require('../models/image.model');
 const multipartyMiddleware = require('../config/multiparty');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
+function generateToken(params = {}) {
+    return jwt.sign(params, 'secretKey', { expiresIn: 86480 });
+}
 
 /**
  * Registrando novos usuários
@@ -53,8 +57,9 @@ routes.post('/login', async(req, res) => {
     if (!await bcrypt.compare(password, user.password)) {
         return res.status(400).send({ error: 'Senha inválida.' });
     }
+
     user.password = undefined;
-    return res.status(200).send(user);
+    return res.status(200).send({ user, token: generateToken({ id: user._id }) });
 
 
 })
