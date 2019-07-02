@@ -12,6 +12,7 @@ aplication.use(bodyParser.urlencoded({ extended: true }));
 aplication.use(morgan('dev'));
 
 
+
 // Configurando banco de dados
 const dbConfig = require('./src/config/database.js');
 

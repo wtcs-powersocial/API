@@ -11,6 +11,7 @@ routes.use(sentinelaApi);
 
 routes.post('/denouces', multipartyMiddleware, async(req, res) => {
 
+    console.log(req.body);
     const denouce = new Denouce({
         categoria: req.body.categoria,
         descricao: req.body.descricao,
@@ -19,13 +20,16 @@ routes.post('/denouces', multipartyMiddleware, async(req, res) => {
         dataDenuncia: req.body.data,
         status: req.body.status,
         autor: req.body.autor,
-        img_denuncia: await Image.create({
+        img_denuncia: req.body.imagem
+    });
+    /*
+    await Image.create({
             name: req.files.img_denuncia.originalFilename,
             size: req.files.img_denuncia.size,
             key: req.files.img_denuncia.name,
             url: ''
         })
-    });
+    */
 
     denouce.save()
         .then(dados => {
@@ -38,7 +42,7 @@ routes.post('/denouces', multipartyMiddleware, async(req, res) => {
 });
 
 // retorno de todas as denúncias não atendidas
-routes.get('/denouces', (req, res) => {
+routes.get('/denouces', multipartyMiddleware, (req, res) => {
     Denouce.find({ status: false })
         .then(denouces => {
             res.status(200).json(denouces);

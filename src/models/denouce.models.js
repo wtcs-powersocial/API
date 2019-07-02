@@ -5,7 +5,7 @@ const DenouceSchema = mongoose.Schema({
     descricao: { type: String, require: true },
     latitude: { type: Number, require: true },
     longitude: { type: Number, require: true },
-    img_denuncia: { type: Object, require: true },
+    img_denuncia: { type: String, require: true },
     dataDenuncia: { type: Date, default: Date.now },
     status: { type: Boolean, default: false },
     autor: { type: String, require: true }
