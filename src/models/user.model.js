@@ -25,7 +25,7 @@ const UserSchema = mongoose.Schema({
         require: true
     },
     icon: {
-        type: Object,
+        type: String,
         require: true
     }
 }, { collection: 'users' });

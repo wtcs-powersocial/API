@@ -8,7 +8,9 @@ const DenouceSchema = mongoose.Schema({
     img_denuncia: { type: String, require: true },
     dataDenuncia: { type: Date, default: Date.now },
     status: { type: Boolean, default: false },
-    autor: { type: String, require: true }
+    autor: { type: Object, require: true },
+    comentarios: { type: Array },
+    curtidas: { type: Array }
 });
 
 module.exports = mongoose.model('Denouce', DenouceSchema);

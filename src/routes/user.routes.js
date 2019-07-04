@@ -24,12 +24,7 @@ routes.post('/register', multipartyMiddleware, async(req, res) => {
     user.cpf = req.body.cpf;
     user.password = req.body.password;
     user.dataNasc = req.body.dataNasc;
-    user.icon = await Image.create({
-        name: req.files.icon.originalFilename,
-        size: req.files.icon.size,
-        key: req.files.icon.name,
-        url: ''
-    });
+    user.icon = req.body.icon
 
     user.save()
         .then(data => {

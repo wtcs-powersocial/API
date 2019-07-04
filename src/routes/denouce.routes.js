@@ -19,7 +19,7 @@ routes.post('/denouces', multipartyMiddleware, async(req, res) => {
         longitude: parseFloat(req.body.longitude),
         dataDenuncia: req.body.data,
         status: req.body.status,
-        autor: req.body.autor,
+        autor: JSON.parse(req.body.autor),
         img_denuncia: req.body.imagem
     });
     /*
